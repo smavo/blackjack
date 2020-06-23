@@ -9,6 +9,19 @@ let deck         = [];
 const tipos      = ['C','D','H','S'];
 const especiales = ['A','J','Q','K'];
 
+let puntosJugador = 0, puntosComputadora = 0;
+
+const divCartasJugador     = document.querySelector('#jugador-cartas');
+const divCartasComputadora = document.querySelector('#computadora-cartas');
+
+const puntosHTML = document.querySelectorAll('small');
+
+// Referencias del HTML
+const btnPedir   = document.querySelector('#btnPedir');
+const btnDetener = document.querySelector('#btnDetener');
+const btnNuevo   = document.querySelector('#btnNuevo');
+
+
 // Crear una nueva Baraja
 const crearDeck = () => {
 
@@ -31,6 +44,7 @@ const crearDeck = () => {
 
 }
 
+crearDeck();
 
 //Tomar una carta
 const pedirCarta = () => {
@@ -39,12 +53,52 @@ const pedirCarta = () => {
         throw 'No hay cartas en el deck';
     }
     const carta = deck.pop(); //remover carta de la baraja
-    console.log('Pedir Carta: ',carta);
-    console.log(deck);
+    //console.log('Pedir Carta: ',carta);
+    //console.log(deck);
     return carta;
 }
 
 
+// pedirCarta();
+const valorCarta = ( carta ) => {
 
-crearDeck();
-pedirCarta();
+    const valor = carta.substring(0, carta.length - 1);
+    return ( isNaN( valor ) ) ? 
+            ( valor === 'A' ) ? 11 : 10
+            : valor * 1;
+
+}
+
+//pedirCarta();
+
+
+// Eventos click
+btnPedir.addEventListener('click', () => {
+//console.log('click');
+const carta = pedirCarta();
+
+puntosJugador = puntosJugador + valorCarta( carta );
+puntosHTML[0].innerText = puntosJugador; //puntos del jugador
+
+    // <img class="carta" src="assets/cartas/2C.png">
+    const imgCarta = document.createElement('img');
+    imgCarta.src = `assets/cartas/${ carta }.png`; //3H, JD
+    imgCarta.classList.add('carta'); // add clase del css
+    divCartasJugador.append( imgCarta ); //Insertando carta
+
+
+    if ( puntosJugador > 21 ) {
+        console.warn('Lo siento mucho, perdiste');
+        btnPedir.disabled   = true;
+        btnDetener.disabled = true;
+        turnoComputadora( puntosJugador );
+
+    } else if ( puntosJugador === 21 ) {
+        console.warn('21, Usted ha ganado!');
+        btnPedir.disabled   = true;
+        btnDetener.disabled = true;
+        turnoComputadora( puntosJugador );
+    }
+
+
+});
