@@ -95,13 +95,13 @@ const turnoComputadora = ( puntosMinimos ) => {
     setTimeout(() => {
      
         if( puntosComputadora === puntosMinimos ) {
-            alert('Nadie gana :(');
+            swal("Nadie Gana :(", " ", "warning");
         } else if ( puntosMinimos > 21 ) {
-            alert('Computadora gana')
+            swal("Computadora gana", " ", "info");
         } else if( puntosComputadora > 21 ) {
-            alert('Jugador Gana');
+            swal("Jugador gana", " ", "success");
         } else {
-            alert('Computadora Gana')
+            swal("Computadora gana", " ", "info");
         }
 
         /*if (puntosJugador === puntosComputadora){
